@@ -1,16 +1,24 @@
 import requests
 import json
 from datetime import datetime
+import time
 
 GITHUB_USERNAME = 'BIDS'
 GITHUB_REPO = 'sensor-group'
+
+
+#Runs updateASBase every 10 seconds
+def main():
+	while True:
+		updateASBase();
+		time.sleep(10);
 
 
 """
 Grabs issues from the GITHUB_REPO repository under GITHUB_USERNAME
 and posts them on ASbase.
 """
-def main():
+def updateASBase():
 	last_posted_timestamp = getLastPostTime('https://github.com/repos/' + GITHUB_USERNAME + '/' + GITHUB_REPO)
 	updated_issues = getUpdatedIssues(last_posted_timestamp)
 
@@ -54,10 +62,10 @@ def getLastPostTime(repo_url):
 	#print('response: ' + str(response))
 	if response['totalItems'] == 0:
 		return None
-	else: 
+	else:
 		#print(response['items'][0]['timestamp'])
 		return response['items'][0]['timestamp']
-	
+
 """
 Goes to Github and grabs issues that have been updated since the timestamp provided.
 """
@@ -65,7 +73,7 @@ def getUpdatedIssues(timestamp):
 	if not timestamp:
 		issue_request_url = 'https://api.github.com/repos/' + GITHUB_USERNAME + '/' + GITHUB_REPO + '/issues'
 		return requests.get(url=issue_request_url, auth=('8fc170cf4359ce90ba0f457652ed5ad63d982594', '')).json()
-	else:	
+	else:
 		issue_request_url = 'https://api.github.com/repos/' + GITHUB_USERNAME + '/' + GITHUB_REPO + '/issues?since='+ timestamp + '&state=all'
 		return requests.get(url=issue_request_url, auth=('8fc170cf4359ce90ba0f457652ed5ad63d982594', '')).json()
 
