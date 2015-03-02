@@ -24,8 +24,8 @@ def updateASBase():
 
 	#Retrieve repository information for issues
 	repo_request_url = 'https://api.github.com/repos/' + GITHUB_USERNAME + '/' + GITHUB_REPO
-	#repo_response = requests.get(url=repo_request_url, auth=('8fc170cf4359ce90ba0f457652ed5ad63d982594', '')).json()
-	repo_response = requests.get(repo_request_url).json()
+	repo_response = requests.get(url=repo_request_url, auth=('dec2cca3656a040cdcf2ad2d4f73598ecd6d9fb8', '')).json()
+	# repo_response = requests.get(repo_request_url).json()
 
 	for issue in updated_issues:
 
@@ -73,12 +73,12 @@ Goes to Github and grabs issues that have been updated since the timestamp provi
 def getUpdatedIssues(timestamp):
 	if not timestamp:
 		issue_request_url = 'https://api.github.com/repos/' + GITHUB_USERNAME + '/' + GITHUB_REPO + '/issues'
-		#return requests.get(url=issue_request_url, auth=('8fc170cf4359ce90ba0f457652ed5ad63d982594', '')).json()
-		return requests.get(issue_request_url).json()
+		return requests.get(url=issue_request_url, auth=('dec2cca3656a040cdcf2ad2d4f73598ecd6d9fb8', '')).json()
+		# return requests.get(issue_request_url).json()
 	else:
 		issue_request_url = 'https://api.github.com/repos/' + GITHUB_USERNAME + '/' + GITHUB_REPO + '/issues?since='+ timestamp + '&state=all'
-		#return requests.get(url=issue_request_url, auth=('8fc170cf4359ce90ba0f457652ed5ad63d982594', '')).json()
-		return requests.get(issue_request_url).json()
+		return requests.get(url=issue_request_url, auth=('dec2cca3656a040cdcf2ad2d4f73598ecd6d9fb8', '')).json()
+		# return requests.get(issue_request_url).json()
 
 """
 Sets the verb attribute of the ASBase record based on whether the issue was created, updated, or closed.
