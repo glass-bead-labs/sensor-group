@@ -6,9 +6,15 @@ import time
 GITHUB_USERNAME = 'BIDS'
 GITHUB_REPO = 'sensor-group'
 
+with open('GitHubAuthKey.txt') as f:
+	key = f.readline().strip()
+print(key)
+
 
 #Runs updateASBase every 10 seconds
 def main():
+
+
 	while True:
 		updateASBase();
 		time.sleep(10);
@@ -24,7 +30,7 @@ def updateASBase():
 
 	#Retrieve repository information for issues
 	repo_request_url = 'https://api.github.com/repos/' + GITHUB_USERNAME + '/' + GITHUB_REPO
-	repo_response = requests.get(url=repo_request_url, auth=('dec2cca3656a040cdcf2ad2d4f73598ecd6d9fb8', '')).json()
+	repo_response = requests.get(url=repo_request_url, auth=(key, '')).json()
 	# repo_response = requests.get(repo_request_url).json()
 
 	for issue in updated_issues:
@@ -73,11 +79,11 @@ Goes to Github and grabs issues that have been updated since the timestamp provi
 def getUpdatedIssues(timestamp):
 	if not timestamp:
 		issue_request_url = 'https://api.github.com/repos/' + GITHUB_USERNAME + '/' + GITHUB_REPO + '/issues'
-		return requests.get(url=issue_request_url, auth=('dec2cca3656a040cdcf2ad2d4f73598ecd6d9fb8', '')).json()
+		return requests.get(url=issue_request_url, auth=(key, '')).json()
 		# return requests.get(issue_request_url).json()
 	else:
 		issue_request_url = 'https://api.github.com/repos/' + GITHUB_USERNAME + '/' + GITHUB_REPO + '/issues?since='+ timestamp + '&state=all'
-		return requests.get(url=issue_request_url, auth=('dec2cca3656a040cdcf2ad2d4f73598ecd6d9fb8', '')).json()
+		return requests.get(url=issue_request_url, auth=(key, '')).json()
 		# return requests.get(issue_request_url).json()
 
 """
